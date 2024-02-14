@@ -5,7 +5,7 @@ pushd "${INSTALL_BASE}" &> /dev/null || {
   exit 1;
 }
 wget \
-  -q --show-progress -O brainfree-bedrock-server.tgz \
-  https://api.github.com/repos/vt520/brainfree-bedrock-server/tarball/master
+  -q --show-progress -O "${BRAINFREE_TARBALL}" \
+  "${BRAINFREE_RELEASE_URL}"
 
 tar xf brainfree-bedrock-server.tgz && bin/bedrock_install_services
