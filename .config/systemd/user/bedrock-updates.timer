@@ -1,0 +1,10 @@
+[Unit]
+Description=Logs some system statistics to the systemd journal
+Requires=bedrock-updates.service
+
+[Timer]
+Unit=bedrock-updates.service
+OnCalendar=*-*-* 00:00:01
+
+[Install]
+WantedBy=timers.target

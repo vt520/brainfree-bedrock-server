@@ -1,0 +1,10 @@
+[Unit]
+Description=Minecraft Bedrock Server
+After=network.target
+[Service]
+Type=simple
+WorkingDirectory=%h
+ExecStart=%h/bin/bedrock_daemon
+ExecStop=%h/bin/bedrock_stop_server
+[Install]
+WantedBy=default.target

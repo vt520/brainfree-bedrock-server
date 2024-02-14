@@ -1,0 +1,10 @@
+[Unit]
+Description=Checks and Updates the Bedrock Server
+Wants=bedrock-updates.timer
+
+[Service]
+Type=oneshot
+ExecStart=%h/bin/bedrock_update_server
+
+[Install]
+WantedBy=default.target
