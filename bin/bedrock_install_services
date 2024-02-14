@@ -1,0 +1,11 @@
+#!/bin/bash
+source ~/.config/bedrock_server.config
+echo "Reloading units"
+systemctl --user daemon-reload
+
+for SERVICE in ${SERVICES}; do
+  echo "Enabling ${SERVICE}"
+  systemctl --user enable "${SERVICE}"
+done;
+
+

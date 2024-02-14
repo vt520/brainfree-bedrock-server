@@ -1,0 +1,6 @@
+#!/bin/bash
+source ~/.config/bedrock_server.config
+
+while screen -p0 -S "${SCREEN_NAME}" -X stuff "stop\n" > /dev/null; do
+	sleep 10
+done

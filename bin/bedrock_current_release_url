@@ -1,0 +1,16 @@
+#!/bin/bash
+source ~/.config/bedrock_server.config
+
+TEMP_FILE=$(mktemp minecraft_release.XXX)
+
+bin/bedrock_http_request -O "${TEMP_FILE}" "${DOWNLOAD_PAGE}" || {
+  exit 1
+}
+
+cat "${TEMP_FILE}" \
+  | grep '<a' \
+  | grep 'role="button"' \
+  | grep 'data-platform="serverBedrockLinux"' \
+  | sed -r 's/.*<a href="//' \
+  | sed -r 's/".*//'
+rm "${TEMP_FILE}"

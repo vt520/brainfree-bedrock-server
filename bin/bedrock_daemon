@@ -1,0 +1,11 @@
+#!/bin/bash
+source ~/.config/bedrock_server.config
+
+[ -e "${CURRENT_INSTALL}" ] || {
+  echo "Not installed"
+  exit 1
+}
+
+pushd ${CURRENT_INSTALL} &> /dev/null
+LD_LIBRARY_PATH=. /usr/bin/screen -D -m -L -S "${SCREEN_NAME}" ./bedrock_server
+popd &> /dev/null

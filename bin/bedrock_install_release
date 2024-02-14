@@ -1,0 +1,52 @@
+#!bin/bash
+source ~/.config/bedrock_server.config
+
+REQUESTED_VERSION=$1
+[ -z "${REQUESTED_VERSION}" ] && REQUESTED_VERSION=$(bedrock_current_release)
+
+
+[ -z "${REQUESTED_VERSION}" ] && {
+  echo "Could not determine version to install"
+  exit 1
+}
+
+REQUESTED_INSTALL="${INSTALL_BASE}/${REQUESTED_VERSION}"
+REQUESTED_ARCHIVE="${REQUESTED_INSTALL}.zip"
+
+
+[ -r "${REQUESTED_ARCHIVE}" ] || {
+  echo "Could not read installation archive ${REQUESTED_ARCHIVE}"
+  exit 1
+}
+
+# Existing Install
+[ -e "${CURRENT_INSTALL}" ] && {
+  [ "$(readlink ${CURRENT_INSTALL})" == "${REQUESTED_INSTALL}" ] || {
+    echo "Using ${CURRENT_INSTALL} as Installation base"
+    bin/bedrock_clone_server_as "${REQUESTED_VERSION}" || {
+      echo "Could not copy ${CURRENT_INSTALL} to ${REQUESTED_INSTALL}"
+    }
+  }
+}
+
+# Create folder if new install
+[ -d "${REQUESTED_INSTALL}" ] || {
+  echo "Creating new Installation base ${REQUESTED_INSTALL}"
+  mkdir -p "${REQUESTED_INSTALL}" || {
+    echo "Could not create installation base ${REQUESTED_INSTALL}"
+    exit 1
+  }
+}
+
+# Begin installing bedrock_server to the folder
+echo "Installing ${REQUESTED_ARCHIVE} in ${REQUESTED_INSTALL}"
+pushd "${REQUESTED_INSTALL}" &> /dev/null || {
+  echo "Could not enter install location ${REQUESTED_INSTALL}"
+  exit 1
+}
+
+unzip -qo "${REQUESTED_ARCHIVE}" || {
+  echo "Could not extract ${REQUESTED_ARCHIVE}"
+  exit 1
+}
+popd &> /dev/null

@@ -1,0 +1,4 @@
+#!/bin/bash
+source ~/.config/bedrock_server.config
+
+screen -rS "${SCREEN_NAME}"

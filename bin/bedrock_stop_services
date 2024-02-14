@@ -1,0 +1,12 @@
+#!/bin/bash
+source ~/.config/bedrock_server.config
+
+for SERVICE in ${START_SERVICES}; do
+  systemctl --user is-active "${SERVICE}" &> /dev/null && {
+    echo "Stopping ${SERVICE}"
+    systemctl --user stop "${SERVICE}" || {
+      echo "Could not stop ${SERVICE}"
+      exit 1
+    }
+  }
+done

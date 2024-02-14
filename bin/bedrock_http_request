@@ -1,0 +1,4 @@
+#!/bin/bash
+source ~/.config/bedrock_server.config
+
+wget $WGET_OPTS --user-agent="${USER_AGENT}" $@

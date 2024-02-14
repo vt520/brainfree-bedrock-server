@@ -1,0 +1,11 @@
+#!/bin/bash
+source ~/.config/bedrock_server.config
+
+CURRENT_RELEASE=$(bin/bedrock_current_release)
+
+bin/bedrock_release_installed "${CURRENT_RELEASE}" && {
+  echo "Release ${CURRENT_RELEASE} already activated"
+  exit 0
+}
+echo "Activating new release ${CURRENT_RELEASE}"
+bin/bedrock_activate_release "${CURRENT_RELEASE}"

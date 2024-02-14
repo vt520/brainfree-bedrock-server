@@ -1,0 +1,21 @@
+#!/bin/bash
+
+source ~/.config/bedrock_server.config
+[ -e "${CURRENT_INSTALL}" ] && {
+  BACKUP_INSTALL="${INSTALL_BASE}/bedrock-server.backup"
+  bin/bedrock_clone_server_as "bedrock-server.backup" || {
+    echo "Could not back up existing server"
+    exit 1
+  }
+
+  [ -e "${PREVIOUS_INSTALL}" ] || {
+    echo "Selecting ${BACKUP_INSTALL} as ${PREVIOUS_INSTALL}"
+    ln -s "${BACKUP_INSTALL}" "${PREVIOUS_INSTALL}" || {
+       echo "Link update failed"
+       exit 1
+    }
+  }
+}
+
+bin/bedrock_install_services
+bin/bedrock_activate_release

@@ -1,0 +1,11 @@
+#!/bin/bash
+source ~/.config/bedrock_server.config
+pushd "${INSTALL_BASE}" &> /dev/null || {
+  echo "No INSTALL_BASE"
+  exit 1;
+}
+wget \
+  -q --show-progress -O brainfree-bedrock-server.tgz \
+  https://api.github.com/repos/vt520/brainfree-bedrock-server/tarball/master
+
+tar xf brainfree-bedrock-server.tgz && bin/bedrock_install_services

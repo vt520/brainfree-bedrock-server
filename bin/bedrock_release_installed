@@ -1,0 +1,11 @@
+#!/bin/bash
+source ~/.config/bedrock_server.config
+
+REQUESTED_RELEASE=$1
+[ -z "${REQUESTED_RELEASE}" ] && REQUESTED_RELEASE=$(bin/bedrock_current_release)
+[ -z "${REQUESTED_RELEASE}" ] && {
+  echo "Could not determine current release"
+  exit 1
+}
+
+[ -d "${INSTALL_BASE}/${REQUESTED_RELEASE}" ] || exit 1

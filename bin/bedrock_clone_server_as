@@ -1,0 +1,34 @@
+#!/bin/bash
+source ~/.config/bedrock_server.config
+
+[ -z "$1" ] && {
+  echo "Nothing to do"
+  exit 1
+}
+
+CLONE_INSTALL="${INSTALL_BASE}/$1"
+[ -d "${CLONE_INSTALL}" ] && {
+  echo "Removing stale ${CLONE_INSTALL}"
+  rm -r "${CLONE_INSTALL}"
+}
+
+bin/bedrock_server_running && {
+  echo "Server runnning, stopping... "
+  bin/bedrock_stop_server
+}
+
+bin/bedrock_server_running && {
+  echo "Server runnning, exiting"
+  exit 1
+}
+
+cp -lr "${CURRENT_INSTALL}" "${CLONE_INSTALL}" || {
+  echo "Clone failed"
+  exit
+}
+
+for DIST in $(find "${CLONE_INSTALL}" -type f -iname "*.dist"); do
+  echo "Removing stale distfile ${DIST}"
+  rm "${DIST}"
+done
+echo "Cloned ${CURRENT_INSTALL} as ${CLONE_INSTALL}"

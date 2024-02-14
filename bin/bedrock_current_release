@@ -1,0 +1,24 @@
+#!/bin/bash
+source ~/.config/bedrock_server.config
+
+DOWNLOAD_URL="$(bin/bedrock_current_release_url)"
+
+[ -z "$DOWNLOAD_URL" ] && {
+  exit 1
+}
+
+RELEASE_VERSION=$(
+  echo $DOWNLOAD_URL \
+  | sed -r 's/.*\///g' \
+  | sed -r 's/\.zip//'
+)
+
+OUTPUT_FILENAME="${INSTALL_BASE}/${RELEASE_VERSION}.zip"
+
+[ -e "${OUTPUT_FILENAME}" ] || {
+  bin/bedrock_http_request -O ${OUTPUT_FILENAME} --show-progress "${DOWNLOAD_URL}" || {
+    exit 2
+  }
+}
+
+echo ${RELEASE_VERSION}

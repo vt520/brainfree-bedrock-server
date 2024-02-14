@@ -1,0 +1,9 @@
+#!/bin/bash
+source ~/.config/bedrock_server.config
+
+for SERVICE in ${START_SERVICES}; do
+  systemctl --user is-active "${SERVICE}" &> /dev/null || {
+    echo "Starting ${SERVICE}"
+    systemctl --user start "${SERVICE}"
+  }
+done

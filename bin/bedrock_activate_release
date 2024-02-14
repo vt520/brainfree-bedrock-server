@@ -1,0 +1,54 @@
+#!/bin/bash
+
+source ~/.config/bedrock_server.config
+
+REQUESTED_VERSION=$1
+[ -z "${REQUESTED_VERSION}" ] && {
+  echo "Selecting Current Release"
+  REQUESTED_VERSION=$(bedrock_current_release)
+}
+
+bin/bedrock_release_installed "${REQUESTED_VERSION}" || {
+  bin/bedrock_install_release "${REQUESTED_VERSION}" || {
+    echo "Could not install ${REQUESTED_VERSION}"
+    exit 1
+  }
+}
+
+REQUESTED_INSTALL="${INSTALL_BASE}/${REQUESTED_VERSION}"
+
+# Ensure the server is stopped
+bin/bedrock_server_running && {
+  echo "Stopping running bedrock-server"
+  bin/bedrock_stop_server
+  bin/bedrock_server_running && {
+    echo "Could not stop bedrock-server"
+    exit 1
+  }
+}
+
+echo "Demoting ${CURRENT_INSTALL} to ${PREVIOUS_INSTALL}"
+mv "${CURRENT_INSTALL}" "${PREVIOUS_INSTALL}"
+
+echo "Activating ${REQUESTED_INSTALL} as ${CURRENT_INSTALL}"
+ln -s "${REQUESTED_INSTALL}" "${CURRENT_INSTALL}" || {
+  echo "Could not activate as ${CURRENT_INSTALL}"
+  exit 1
+}
+
+# Copy over exting configuration
+[ -e "${PREVIOUS_INSTALL}" ] && {
+  echo "Applying previous configuration"
+  bin/bedrock_apply_previous_configuration || {
+    echo "Failed to apply configuration"
+    exit 1
+  }
+}
+
+bin/bedrock_start_services || {
+  echo "Could not start services that support bedrock"
+  exit 1
+}
+
+echo "Success, version ${REQUESTED_VERSION} installed"
+echo "You can connect to your minecraft server using bedrock_console"
