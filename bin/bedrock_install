@@ -1,9 +1,10 @@
 #!/bin/bash
-
 source ~/.config/bedrock_server.config
-[ -e "${CURRENT_INSTALL}" ] && {
-  BACKUP_INSTALL="${INSTALL_BASE}/bedrock-server.backup"
-  bin/bedrock_clone_server_as "bedrock-server.backup" || {
+
+[ -e "${SELECTED_INSTALL}" ] && {
+  BACKUP_RELEASE_NAME="${SELECTED_RELEASE_NAME}.backup"
+  BACKUP_INSTALL="${INSTALL_BASE}/${BACKUP_RELEASE_NAME}"
+  bin/bedrock_clone_server_as "${BACKUP_RELEASE_NAME}" || {
     echo "Could not back up existing server"
     exit 1
   }

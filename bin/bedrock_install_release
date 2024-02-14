@@ -20,11 +20,11 @@ REQUESTED_ARCHIVE="${REQUESTED_INSTALL}.zip"
 }
 
 # Existing Install
-[ -e "${CURRENT_INSTALL}" ] && {
-  [ "$(readlink ${CURRENT_INSTALL})" == "${REQUESTED_INSTALL}" ] || {
-    echo "Using ${CURRENT_INSTALL} as Installation base"
+[ -e "${SELECTED_INSTALL}" ] && {
+  [ "$(readlink ${SELECTED_INSTALL})" == "${REQUESTED_INSTALL}" ] || {
+    echo "Using ${SELECTED_INSTALL} as Installation base"
     bin/bedrock_clone_server_as "${REQUESTED_VERSION}" || {
-      echo "Could not copy ${CURRENT_INSTALL} to ${REQUESTED_INSTALL}"
+      echo "Could not copy ${SELECTED_INSTALL} to ${REQUESTED_INSTALL}"
     }
   }
 }

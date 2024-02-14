@@ -1,2 +1,2 @@
 #!/bin/bash
-systemctl --user is-active bedrock-server &> /dev/null || exit 1
+systemctl --user is-active "${BEDROCK_SERVICE}" &> /dev/null || exit 1

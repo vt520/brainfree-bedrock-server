@@ -22,7 +22,7 @@ bin/bedrock_server_running && {
   exit 1
 }
 
-cp -lr "${CURRENT_INSTALL}" "${CLONE_INSTALL}" || {
+cp -lr "${SELECTED_INSTALL}" "${CLONE_INSTALL}" || {
   echo "Clone failed"
   exit
 }
@@ -31,4 +31,4 @@ for DIST in $(find "${CLONE_INSTALL}" -type f -iname "*.dist"); do
   echo "Removing stale distfile ${DIST}"
   rm "${DIST}"
 done
-echo "Cloned ${CURRENT_INSTALL} as ${CLONE_INSTALL}"
+echo "Cloned ${SELECTED_INSTALL} as ${CLONE_INSTALL}"

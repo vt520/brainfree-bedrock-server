@@ -1,6 +1,6 @@
 #!/bin/bash
 loginctl user-status --no-pager --no-legend $(id -un) \
   | grep "Linger: yes" &> /dev/null || {
-  echo "Warning, this user cannot use run bedrock-server unatended"
+  echo "Warning, this user cannot use run ${BEDROCK_SERVICE} unatended"
   exit 1
 }

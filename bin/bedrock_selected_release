@@ -1,0 +1,4 @@
+#!/bin/bash
+source ~/.config/bedrock_server.config
+
+basename $(readlink ${SELECTED_INSTALL} 2> /dev/null) 2> /dev/null

@@ -1,7 +1,13 @@
 #!/bin/bash
 source ~/.config/bedrock_server.config
+for TIMER in ${AUTO_TIMERS}; do
+  systemctl --user disable "${TIMER}" &> /dev/null || {
+    echo "Could not disable ${TIMER}"
+    exit 1
+  }
+done
 
-for SERVICE in ${START_SERVICES}; do
+for SERVICE in ${AUTO_SERVICES}; do
   systemctl --user is-active "${SERVICE}" &> /dev/null && {
     echo "Stopping ${SERVICE}"
     systemctl --user stop "${SERVICE}" || {

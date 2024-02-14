@@ -3,7 +3,7 @@ source ~/.config/bedrock_server.config
 
 SERVER_CONFIG="server.properties banned-ips.json banned-players.json ops.json usercache.json whitelist.json"
 
-[ -e "${CURRENT_INSTALL}" ] || {
+[ -e "${SELECTED_INSTALL}" ] || {
   echo "Not installed"
   exit 1
 }
@@ -17,7 +17,7 @@ for FILE in $SERVER_CONFIG; do
   RESTORE_FILE="${PREVIOUS_INSTALL}/${FILE}"
   [ -r "${RESTORE_FILE}" ] && {
     echo "Restoring ${RESTORE_FILE}"
-    RESTORE_TO="${CURRENT_INSTALL}/${FILE}"
+    RESTORE_TO="${SELECTED_INSTALL}/${FILE}"
     [ -e "${RESTORE_TO}" ] && {
       DIST_FILE="${RESTORE_TO}.dist"
       [ -e "${DIST_FILE}" ] || {

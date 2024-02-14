@@ -8,7 +8,7 @@ REQUESTED_VERSION=$1
   REQUESTED_VERSION=$(bedrock_current_release)
 }
 
-bin/bedrock_release_installed "${REQUESTED_VERSION}" || {
+bin/bedrock_installed_release "${REQUESTED_VERSION}" || {
   bin/bedrock_install_release "${REQUESTED_VERSION}" || {
     echo "Could not install ${REQUESTED_VERSION}"
     exit 1
@@ -19,20 +19,20 @@ REQUESTED_INSTALL="${INSTALL_BASE}/${REQUESTED_VERSION}"
 
 # Ensure the server is stopped
 bin/bedrock_server_running && {
-  echo "Stopping running bedrock-server"
+  echo "Stopping running ${BEDROCK_SERVICE}"
   bin/bedrock_stop_server
   bin/bedrock_server_running && {
-    echo "Could not stop bedrock-server"
+    echo "Could not stop ${BEDROCK_SERVICE}"
     exit 1
   }
 }
 
-echo "Demoting ${CURRENT_INSTALL} to ${PREVIOUS_INSTALL}"
-mv "${CURRENT_INSTALL}" "${PREVIOUS_INSTALL}"
+echo "Demoting ${SELECTED_INSTALL} to ${PREVIOUS_INSTALL}"
+mv "${SELECTED_INSTALL}" "${PREVIOUS_INSTALL}"
 
-echo "Activating ${REQUESTED_INSTALL} as ${CURRENT_INSTALL}"
-ln -s "${REQUESTED_INSTALL}" "${CURRENT_INSTALL}" || {
-  echo "Could not activate as ${CURRENT_INSTALL}"
+echo "Activating ${REQUESTED_INSTALL} as ${SELECTED_INSTALL}"
+ln -s "${REQUESTED_INSTALL}" "${SELECTED_INSTALL}" || {
+  echo "Could not activate as ${SELECTED_INSTALL}"
   exit 1
 }
 

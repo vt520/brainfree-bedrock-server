@@ -1,4 +1,0 @@
-#!/bin/bash
-source ~/.config/bedrock_server.config
-
-basename $(readlink ${CURRENT_INSTALL})
